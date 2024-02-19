@@ -1,0 +1,32 @@
+
+
+    addi sp, sp, -16
+    sw a0,  12 (sp)
+
+
+    sw ra, 8 (sp)
+    sw fp, 4 (sp)
+    sw s1, 0 (sp)
+
+    addi fp, sp, 12
+    ADDI s1, a0, 0
+    BEQ a0, x0, epilogue
+    ADDI t1, x0,1
+    BEQ a0, t1, epilogue
+    ADDI a0, a0, -1
+    JAL ra, r_fibonacci
+    ADDI t1, a0, 0
+    ADDI a0, s1, -2
+    ADDI s1, t1, 0
+    JAL ra, r_fibonacci
+    ADD a0, a0, s1
+    JAL ra, epilogue
+epilogue:
+    lw s1, 0(sp)
+    lw fp, 4(sp)
+    lw ra, 8(sp)
+    addi sp, sp, 16
+    jalr x0, ra, 0
+
+
+    
