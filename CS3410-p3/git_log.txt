@@ -1,0 +1,59 @@
+commit 2c710eeb0d27208d07b95b5fd6fe0b72231b9a66
+Author: Kevin Klaben <kevinklaben@dhcp-mcfad-2603.eduroam.cornell.edu>
+Date:   Fri Mar 29 22:47:10 2019 -0400
+
+    everything is done with fibonacci's added
+
+commit f044250142846302343f723c4bb16f36c1a56bb3
+Author: Kevin Klaben <kevinklaben@dhcp-mcfad-2603.eduroam.cornell.edu>
+Date:   Fri Mar 29 22:46:25 2019 -0400
+
+    everything is complete
+
+commit 902f1a4247f817e1786169cca7b6ecc39cd4b3c1
+Author: Hudson Fernandes <haf48@cornell.edu>
+Date:   Fri Mar 29 19:32:00 2019 -0400
+
+    Minor edits
+
+commit 8ca34469c0ce5b3433c1d2dd42a6987039281f33
+Author: Hudson Fernandes <haf48@cornell.edu>
+Date:   Fri Mar 29 18:20:55 2019 -0400
+
+    fixed issues with load use stalling and sb
+
+commit 9a3223b9cad2391c49bf6866257922e55c853739
+Author: Hudson Fernandes <haf48@cornell.edu>
+Date:   Thu Mar 28 22:57:44 2019 -0400
+
+    Implemented load hazard detection and stalling
+
+commit c81b97d1ff90776f479f3e5a3a3f4462048c0205
+Author: Hudson Fernandes <haf48@cornell.edu>
+Date:   Wed Mar 27 15:07:42 2019 -0400
+
+    Finished load + store (without hazard detection)
+
+commit 579cdb4cb2accbe0bda718767676d131bd6852e0
+Author: Hudson Fernandes <haf48@cornell.edu>
+Date:   Wed Mar 27 01:16:14 2019 -0400
+
+    Finished decode stage of load and store ops
+
+commit b61c37c4f8c5c8c16658f2198ba7a146457861c3
+Author: Hudson Fernandes <haf48@cornell.edu>
+Date:   Wed Mar 27 01:07:46 2019 -0400
+
+    Began load and store ops
+
+commit 804aa0f0b606869c6c2069f0367ae53eed5d9f2f
+Author: Kevin Klaben <kevinklaben@dhcp-ccc-7400.eduroam.cornell.edu>
+Date:   Tue Mar 26 09:43:16 2019 -0400
+
+    Branches seem to be working
+
+commit 31c75de10530ac4e54c1dd3e67b11cb0d7d55120
+Author: Kevin Klaben <kevinklaben@dhcp-rhodes-401.eduroam.cornell.edu>
+Date:   Mon Mar 25 12:34:58 2019 -0400
+
+    Jal and Jalr might be working

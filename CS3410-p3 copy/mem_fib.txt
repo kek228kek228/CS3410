@@ -1,0 +1,91 @@
+ADDI sp, x0, 500
+ADDI fp, x0, 500
+ADDI a0, x0, 1
+ADDI a1, x0, 0
+ADDI a2, x0, 1
+JAL ra, m_fibonacci
+JAL x0, exit
+
+# Body: 
+m_fibonacci: 
+Prologue: 
+# allocating stack space
+ADDI sp, sp, -24
+
+SW a2, 20(sp)
+SW a1, 16(sp)
+SW a0, 12(sp)
+
+SW ra, 8(sp)
+SW fp, 4(sp)
+SW s2, 0(sp)
+
+	BGE a0, a2, B2
+	
+	ADDI t0, x0, 0
+	ADDI t1, x0, 0
+	ADDI t2, x0, 0
+	Offset: 
+		LW t2, 4(a1)
+		ADDI a1, a1, 4
+		ADDI t1, t1, 1
+		BLT t1, a0, Offset
+	LW a1, 16(sp)
+	BEQ t2, x0, B2
+	ADDI a0, t2, 0
+	JAL x0, Epilogue
+
+
+	B2:
+		BNE a0, x0, B3
+		ADDI a0, x0, 0
+		JAL x0, Epilogue
+
+	B3:
+		ADDI t0, x0, 1
+		BNE a0, t0, RC
+		ADDI a0, x0, 1
+		JAL x0, Epilogue
+
+	RC:
+		LW a0, 12(sp)
+		ADDI a0, a0, -2
+		JAL ra, Prologue
+		add s2, a0, x0
+
+		LW a0, 12(sp)
+		ADDI a0, a0, -1
+		JAL ra, Prologue
+		ADD s2, a0, s2
+
+		BGE a0, a2, ReturnA
+		ADDI t1, x0, 0
+		ADDI t2, x0, 0
+		Offset1: 
+			LW t2, 4(a1)
+			ADDI a1, a1, 4
+			ADDI t1, t1, 1
+			BLT t1, a0, Offset1
+		LW a1, 16(sp)
+		SW s2, 0(a1)
+		JAL x0, ReturnA
+		
+		ReturnA:
+			ADDI a0, s2, 0
+			JAL x0, Epilogue
+	 
+
+
+Epilogue:
+	LW ra, 8(sp)
+	LW fp, 4(sp)
+	LW s2, 0(sp)
+	ADDI sp, sp, 24
+
+	JALR x0, ra, 0
+
+exit:
+    
+
+
+    

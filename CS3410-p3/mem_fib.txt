@@ -1,0 +1,76 @@
+ADDI sp, sp, -24
+
+SW a2, 20(sp)
+SW a1, 16(sp)
+SW a0, 12(sp)
+
+SW ra, 8(sp)
+SW fp, 4(sp)
+SW s2, 0(sp)
+
+	BGE a0, a2, 48
+	
+	ADDI t0, x0, 0
+	ADDI t1, x0, 0
+	ADDI t2, x0, 0
+
+		LW t2, 4(a1)
+		ADDI a1, a1, 4
+		ADDI t1, t1, 1
+		BLT t1, a0, -12
+	LW a1, 16(sp)
+	BEQ t2, x0, 12
+	ADDI a0, t2, 0
+	JAL x0, 108
+
+
+
+		BNE a0, x0, 12
+		ADDI a0, x0, 0
+		JAL x0, 96
+
+
+		ADDI t0, x0, 1
+		BNE a0, t0, 12
+		ADDI a0, x0, 1
+		JAL x0, 80
+
+
+		LW a0, 12(sp)
+		ADDI a0, a0, -2
+		JAL ra, -112
+		add s2, a0, x0
+
+		LW a0, 12(sp)
+		ADDI a0, a0, -1
+		JAL ra, -128
+		ADD s2, a0, s2
+
+		BGE a0, a2, 40
+		ADDI t1, x0, 0
+		ADDI t2, x0, 0
+ 
+			LW t2, 4(a1)
+			ADDI a1, a1, 4
+			ADDI t1, t1, 1
+			BLT t1, a0, -12
+		LW a1, 16(sp)
+		SW s2, 0(a1)
+		JAL x0, 4
+		
+
+			ADDI a0, s2, 0
+			JAL x0, 4
+	 
+
+
+
+	LW ra, 8(sp)
+	LW fp, 4(sp)
+	LW s2, 0(sp)
+	ADDI sp, sp, 24
+
+	JALR x0, ra, 0
+
+
+    
