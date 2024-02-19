@@ -1,0 +1,126 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "heaplib.h"
+#include <string.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <assert.h>
+#include "spinlock.h"
+
+/* 
+ * Global lock object.  You should use this global lock for any locking you need to do.
+ */
+#ifdef __riscv
+volatile lock_t malloc_lock = {.riscv_lock = 0};
+#else
+volatile lock_t malloc_lock = {.pthread_lock = PTHREAD_MUTEX_INITIALIZER};
+#endif
+typedef struct heap_h{
+    int heap_size;
+    void *first_block;
+} heap_h;
+
+typedef struct block{
+    unsigned int block_size; 
+    void *prev; 
+    void *next;
+} block;
+
+/* the .h for the advertised behavior of this library function.
+ * These comments describe the implementation, not the interface.
+ *
+ * YOUR COMMENTS GO HERE.
+ */
+int hl_init(void *heap, unsigned int heap_size) {
+    if(heap==NULL){
+        return FAILURE;
+    }
+    if(heap_size<MIN_HEAP_SIZE){
+        return FAILURE;
+    }    
+    heap_h *heapp=(heap_h*)((char *)heap) + (8-(*(int *)&heap%8))%8;
+    heapp->heap_size=heap_size-sizeof(heap_h);
+    heapp->first_block=(char*)(heap)+sizeof(heap_h);
+    block *free=(block *)heapp->first_block;
+    free->block_size=heap_size-sizeof(heap_h);
+    free->prev=NULL;
+    free->next=NULL;
+    return SUCCESS;
+}
+
+/* See the .h for the advertised behavior of this library function.
+ * These comments describe the implementation, not the interface.
+ 
+*
+ * YOUR COMMENTS GO HERE.
+ */
+void *hl_alloc(void *heap, unsigned int block_size) {
+    if(heap==NULL||block_size<=0){
+        return FAILURE;
+    }
+    unsigned int needed=block_size + 2*sizeof(block);
+    needed=needed + (8-(needed%8))%8;
+    heap_h *heapp = (heap_h *)heap;
+    if(heapp->heap_size<block_size){
+        return 0;
+    }
+    void* next_b=heapp->first_block;
+    bool end=false;
+    block* best_b =NULL;
+    /*void* next_b=heap;*/
+    while(!end){
+        if(next_b!=NULL){
+            block *b=(block*)next_b;
+            if(b->block_size>=needed){
+                if(best_b==NULL||b->block_size<best_b->block_size){
+                    best_b=b;
+                }
+            }
+            next_b=b->next;
+            
+           
+        }
+        else{
+            end=true;
+        }
+
+    }
+    if(best_b==NULL){
+    
+        return FAILURE;
+    }
+    unsigned int a=(8-(block_size%8))%8+block_size;
+    block* dest=(block*)((char *)best_b)-a;
+    memmove(best_b,best_b,sizeof(block));
+    
+    dest->block_size=best_b->block_size-block_size;
+    block* prevv=(block*)dest->prev;
+    if(prevv!=NULL){
+        prevv->next=dest;
+    }
+    block* nextt=(block*)dest->next;
+    if (nextt!=NULL){
+        nextt->prev=dest;
+    }
+    return best_b;
+}
+
+/* See the .h for the advertised behavior of this library function.
+ * These comments describe the implementation, not the interface.
+ *
+ * YOUR COMMENTS GO HERE.
+ */
+void hl_release(void *heap, void *block) {
+
+}
+
+/* See the .h for the advertised behavior of this library function.
+ * These comments describe the implementation, not the interface.
+ *
+ * YOUR COMMENTS GO HERE.
+ */
+void *hl_resize(void *heap, void *block, unsigned int new_size) {
+
+    return FAILURE;
+}
+
